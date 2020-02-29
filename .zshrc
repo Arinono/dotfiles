@@ -14,7 +14,7 @@ BULLETTRAIN_PROMPT_ORDER=(
 )
 BULLETTRAIN_PROMPT_CHAR=">"
 BULLETTRAIN_STATUS_EXIT_SHOW=true
-source $ZSH/oh-my-zsh.shv
+source $ZSH/oh-my-zsh.sh
 
 # Enable plugins.
 plugins=(git brew history kubectl docker docker-compose git-auto-fetch yarn emoji vscode)
