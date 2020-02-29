@@ -17,7 +17,7 @@ BULLETTRAIN_STATUS_EXIT_SHOW=true
 source $ZSH/oh-my-zsh.sh
 
 # Enable plugins.
-plugins=(git brew history kubectl docker docker-compose git-auto-fetch yarn emoji vscode)
+plugins=(git history kubectl docker docker-compose git-auto-fetch yarn emoji vscode)
 
 # Lang
 export LANG=en_US.UTF-8
