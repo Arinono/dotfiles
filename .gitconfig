@@ -3,6 +3,8 @@
   email = aurelien.arino@gmail.com
 [gpg]
   program = gpg
+[web]
+  browser = brave-browser
 [core]
   editor = nano
   excludesfile = ~/.gitignore
