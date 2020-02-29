@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+
+# Mac OS X configuration
+#
+# This configuration applies to the latest version of Mac OS X (currently
+# 10.10.1), and sets up preferences and configurations for all the built-in
+# services and apps. Third-party app config should be done elsewhere.
+#
+# Options:
+#   --no-restart: Don't restart any apps or services after running the script.
+#
+# @see: http://secrets.blacktree.com/?showapp=com.apple.finder
+#
+# @author Jeff Geerling, 2014
+
+# Warn that some commands will not be run if the script is not run as root.
+if [[ $EUID -ne 0 ]]; then
+  RUN_AS_ROOT=false
+  printf "Certain commands will not be run without sudo privileges. To run as root, run the same command prepended with 'sudo', for example: $ sudo $0\n\n" | fold -s -w 80
+else
+  RUN_AS_ROOT=true
+  # Update existing `sudo` timestamp until `.osx` has finished
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+fi
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+# Set standby delay to 24 hours (default is 1 hour)
+# You can check current values with `pmset -g`.
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  sudo pmset -a standbydelay 86400
+fi
+
+# Disable system sleep (helpful if you're usually plugged into mains power).
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  sudo pmset -a sleep 0
+fi
+
+# Reveal IP address, hostname, OS version, etc. when clicking the clock
+# in the login window
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+fi
+
+# Restart automatically if the computer freezes
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  systemsetup -setrestartfreeze on
+fi
+
+# Disable Notification Center
+# launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
+# To re-enable, run:
+# launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist && open /System/Library/CoreServices/NotificationCenter.app/
+
+# Disable game center. Who uses that thing?
+launchctl unload /System/Library/LaunchAgents/com.apple.gamed.plist 2> /dev/null
+
+###############################################################################
+# SSD-specific tweaks                                                         #
+###############################################################################
+
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  # Disable local Time Machine snapshots
+  sudo tmutil disablelocal
+
+  # Disable hibernation (speeds up entering sleep mode)
+  sudo pmset -a hibernatemode 0
+
+  # Remove the sleep image file to save disk space
+  sudo rm /Private/var/vm/sleepimage
+  # Create a zero-byte file instead...
+  sudo touch /Private/var/vm/sleepimage
+  # ...and make sure it can’t be rewritten
+  sudo chflags uchg /Private/var/vm/sleepimage
+
+  # Disable the sudden motion sensor as it’s not useful for SSDs
+  sudo pmset -a sms 0
+fi
+
+# Enable HiDPI display modes (requires restart)
+# if [[ "$RUN_AS_ROOT" = true ]]; then
+#   sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+# fi
+
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+
+# Enable snap-to-grid for icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
+
+# Set the size of icons on the desktop and in other icon views
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
+
+# Show the ~/Library folder
+chflags nohidden ~/Library
+
+# Expand the following File Info panes:
+# “General”, “Open with”, and “Sharing & Permissions”
+defaults write com.apple.finder FXInfoPanesExpanded -dict \
+  General -bool true \
+  OpenWith -bool true \
+  Preview -bool false \
+  Privileges -bool true
+
+###############################################################################
+# Dock, Dashboard, and hot corners                                            #
+###############################################################################
+
+# Add iOS Simulator to Applications folder.
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  sudo ln -sf /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app /Applications/Simulator.app
+fi
+
+###############################################################################
+# Spotlight                                                                   #
+###############################################################################
+
+if [[ "$RUN_AS_ROOT" = true ]]; then
+  # Disable Spotlight indexing for any volume that gets mounted and has not yet
+  # been indexed before.
+  # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
+  sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
+
+  # Restart spotlight
+  killall mds > /dev/null 2>&1
+fi
+
+
+###############################################################################
+# Kill/restart affected applications                                          #
+###############################################################################
+
+# Restart affected applications if `--no-restart` flag is not present.
+if [[ ! ($* == *--no-restart*) ]]; then
+  for app in "cfprefsd" "Dock" "Finder" "Mail" "SystemUIServer" "Terminal"; do
+    killall "${app}" > /dev/null 2>&1
+  done
+fi
+
+printf "Please log out and log back in to make all settings take effect.\n"
