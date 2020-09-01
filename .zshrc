@@ -2,7 +2,7 @@
 export PATH=/bin:/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/usr/local/sbin:$HOME/.bin:$HOME/flutter/bin:/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin:$HOME/.cargo/bin:$HOME/.pub-cache/bin:$HOME/go/bin
 
 # ohmz.sh
-export ZSH="/Users/aurelien/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="bullet-train"
 BULLETTRAIN_PROMPT_ORDER=(
   status
