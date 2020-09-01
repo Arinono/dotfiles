@@ -8,6 +8,7 @@
 [core]
   editor = nano
   excludesfile = ~/.gitignore
+	ignorecase = false
 [color]
   branch = auto
   diff = auto
@@ -23,3 +24,7 @@
   d = diff
   dc = diff --cached
   l = log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
+[commit]
+	gpgsign = true
+[pull]
+	rebase = false

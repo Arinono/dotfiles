@@ -1,5 +1,5 @@
 # Custom $PATH with extra locations.
-export PATH=/usr/local/bin:/usr/local/sbin:$HOME/.bin:/usr/local/git/bin:/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin:$PATH
+export PATH=/bin:/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/usr/local/sbin:$HOME/.bin:$HOME/flutter/bin:/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin:$HOME/.cargo/bin:$HOME/.pub-cache/bin:$HOME/go/bin
 
 # ohmz.sh
 export ZSH="/Users/aurelien/.oh-my-zsh"
@@ -31,8 +31,15 @@ export GPG_TTY=$(tty)
 # Tell homebrew to not autoupdate every single time I run it (just once a week).
 export HOMEBREW_AUTO_UPDATE_SECS=604800
 
-# Python settings.
+# Python settings
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
+
+# Java settings
+# export JAVA_HOME=$(/usr/libexec/java_home)
+# export JRE_HOME=$(/usr/libexec/java_home)
+
+# Go settings
+export GOPATH=$HOME/.go
 
 # Include alias file (if present) containing aliases for ssh, etc.
 if [ -f ~/.aliases ]
@@ -50,9 +57,11 @@ alias gs='git status'
 alias gc='git commit'
 alias gp='git pull --rebase'
 alias gcam='git commit -am'
-alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
+alias glg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
+alias gl='git log --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
+alias brew-upgrade='omz update ; brew update && (brew upgrade ; brew cask upgrade); brew cleanup'
 
 # Completions.
 autoload -Uz compinit && compinit
@@ -104,3 +113,6 @@ knownrm() {
    sed -i '' "$1d" ~/.ssh/known_hosts
  fi
 }
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
