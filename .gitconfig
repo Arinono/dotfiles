@@ -8,6 +8,7 @@
 [core]
   editor = nano
   excludesfile = ~/.gitignore
+	ignorecase = false
 [color]
   branch = auto
   diff = auto
@@ -24,4 +25,6 @@
   dc = diff --cached
   co = checkout
 [commit]
-  gpgsign = true
+	gpgsign = true
+[pull]
+	rebase = false
