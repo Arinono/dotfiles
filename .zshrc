@@ -61,7 +61,7 @@ alias glg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset 
 alias gl='git log --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
-alias brew-upgrade='omz update ; brew update && (brew upgrade ; brew upgrade --cask); brew cleanup'
+alias brew-upgrade='omz update; brew update && (brew upgrade; brew upgrade --cask); brew cleanup; n latest; rustup update'
 alias tmclean='for d in $(tmutil listlocalsnapshotdates | grep "-"); do sudo tmutil deletelocalsnapshots $d; done'
 
 # Completions.
