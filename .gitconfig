@@ -6,9 +6,9 @@
 [web]
   browser = brave-browser
 [core]
-  editor = nano
+  editor = nano -w
   excludesfile = ~/.gitignore
-	ignorecase = false
+  ignorecase = false
 [color]
   branch = auto
   diff = auto
@@ -17,13 +17,17 @@
 [credential]
   helper = osxkeychain
 [alias]
-  c = commit
-  ca = commit -a
-  cm = commit -m
-  cam = commit -am
-  d = diff
-  dc = diff --cached
+  st = status
+  ci = commit
+  cim = commit -m
+  br = branch
   co = checkout
+  df = diff
+  dc = diff --cached
+  ds = diff --staged
+  lg = log -p
+  lol = log --graph --decorate --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
+  lola = log --graph --decorate --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --all --date=local
 [commit]
 	gpgsign = true
 [pull]
