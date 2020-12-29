@@ -30,5 +30,4 @@
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all --date=local
 [commit]
 	gpgsign = true
-[pull]
-	rebase = false
+[pull]	rebase = true
