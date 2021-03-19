@@ -5,41 +5,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Custom $PATH with extra locations.
-export PATH=/bin:/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/usr/local/sbin:$HOME/.bin:$HOME/flutter/bin:/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin:$HOME/.cargo/bin:$HOME/.pub-cache/bin:$HOME/go/bin:/usr/local/share/dotnet/:$HOME/.wasienv/bin
+export GPG_TTY=$(tty)
 
 # ohmz.sh
-export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k"
 
 # Enable plugins.
 plugins=(git history kubectl docker docker-compose git-auto-fetch yarn emoji vscode)
-
-# Lang
-export LANG=en_US.UTF-8
-
-# Editor
-export EDITOR='nano'
-
-# GPG
-export GPG_TTY=$(tty)
-
-# Tell homebrew to not autoupdate every single time I run it (just once a week).
-export HOMEBREW_AUTO_UPDATE_SECS=604800
-
-# Python settings
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
-
-# Java settings
-# export JAVA_HOME=$(/usr/libexec/java_home)
-# export JRE_HOME=$(/usr/libexec/java_home)
-
-# Go settings
-export GOPATH=$HOME/.go
-
-# Wasmer settings
-export WASMER_DIR="/Users/aurelien/.wasmer"
-[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
 
 # Include alias file (if present) containing aliases for ssh, etc.
 if [ -f ~/.aliases ]
@@ -61,6 +33,7 @@ alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
 alias upgrades='omz update; brew update && (brew upgrade; brew upgrade --cask); brew cleanup; n lts; n latest; rustup update; (v up && v -prod self)'
 alias tmclean='for d in $(tmutil listlocalsnapshotdates | grep "-"); do sudo tmutil deletelocalsnapshots $d; done'
+alias thtop='htop -t -s PERCENT_CPU -u $USER'
 
 # Completions.
 autoload -Uz compinit && compinit
@@ -118,4 +91,6 @@ complete -o nospace -C /usr/local/bin/vault vault
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+source $ZSH/oh-my-zsh.sh
