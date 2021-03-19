@@ -1,20 +1,16 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Custom $PATH with extra locations.
-export PATH=/bin:/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/usr/local/sbin:$HOME/.bin:$HOME/flutter/bin:/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin:$HOME/.cargo/bin:$HOME/.pub-cache/bin:$HOME/go/bin
+export PATH=/bin:/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/usr/local/sbin:$HOME/.bin:$HOME/flutter/bin:/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin:$HOME/.cargo/bin:$HOME/.pub-cache/bin:$HOME/go/bin:/usr/local/share/dotnet/:$HOME/.wasienv/bin
 
 # ohmz.sh
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="bullet-train"
-BULLETTRAIN_PROMPT_ORDER=(
-  status
-  cmd_exec_time
-  time
-  dir
-  git
-  nvm
-)
-BULLETTRAIN_PROMPT_CHAR=">"
-BULLETTRAIN_STATUS_EXIT_SHOW=true
-source $ZSH/oh-my-zsh.sh
+ZSH_THEME="powerlevel10k"
 
 # Enable plugins.
 plugins=(git history kubectl docker docker-compose git-auto-fetch yarn emoji vscode)
@@ -41,6 +37,10 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
 # Go settings
 export GOPATH=$HOME/.go
 
+# Wasmer settings
+export WASMER_DIR="/Users/aurelien/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+
 # Include alias file (if present) containing aliases for ssh, etc.
 if [ -f ~/.aliases ]
 then
@@ -59,7 +59,7 @@ alias gl='git lol'
 alias gla='git lola'
 alias python=/usr/local/bin/python3
 alias pip=/usr/local/bin/pip3
-alias brew-upgrade='omz update; brew update && (brew upgrade; brew upgrade --cask); brew cleanup; n latest; rustup update'
+alias upgrades='omz update; brew update && (brew upgrade; brew upgrade --cask); brew cleanup; n lts; n latest; rustup update; (v up && v -prod self)'
 alias tmclean='for d in $(tmutil listlocalsnapshotdates | grep "-"); do sudo tmutil deletelocalsnapshots $d; done'
 
 # Completions.
@@ -115,3 +115,7 @@ knownrm() {
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
