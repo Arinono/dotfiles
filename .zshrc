@@ -19,22 +19,6 @@ then
   source ~/.aliases
 fi
 
-# Git aliases.
-alias la="ls -ah"
-alias ll="ls -lh"
-alias lla="ls -lah"
-alias d="docker"
-alias c="code-insiders"
-alias gs='git status'
-alias gp='git pull --rebase'
-alias gl='git lol'
-alias gla='git lola'
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
-alias upgrades='omz update; brew update && (brew upgrade; brew upgrade --cask); brew cleanup; n lts; n latest; rustup update; (v up && v -prod self)'
-alias tmclean='for d in $(tmutil listlocalsnapshotdates | grep "-"); do sudo tmutil deletelocalsnapshots $d; done'
-alias thtop='htop -t -s PERCENT_CPU -u $USER'
-
 # Completions.
 autoload -Uz compinit && compinit
 # Case insensitive.
@@ -94,3 +78,19 @@ complete -o nospace -C /usr/local/bin/vault vault
 
 source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 source $ZSH/oh-my-zsh.sh
+
+# Git aliases.
+alias la="ls -ah"
+alias ll="ls -lh"
+alias lla="ls -lah"
+alias d="docker"
+alias c="code-insiders"
+alias gs='git status'
+alias gp='git pull --rebase'
+alias gl='git lol'
+alias gla='git lola'
+alias python=/usr/local/bin/python3
+alias pip=/usr/local/bin/pip3
+alias upgrades='omz update; brew update && (brew upgrade; brew upgrade --cask); brew cleanup; n lts; n latest; rustup update; (v up && v -prod self)'
+alias tmclean='for d in $(tmutil listlocalsnapshotdates | grep "-"); do sudo tmutil deletelocalsnapshots $d; done'
+alias thtop='htop -t -s PERCENT_CPU -u $USER'
