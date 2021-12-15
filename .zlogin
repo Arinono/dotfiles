@@ -1,1 +1,2 @@
-/usr/local/bin/archey -o -c
+$(which archey) -o -c
+

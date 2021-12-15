@@ -327,8 +327,8 @@
   # back to POWERLEVEL9K_DIR_FOREGROUND.
   #
   typeset -g POWERLEVEL9K_DIR_CLASSES=(
-    '~/dev/storyscript(|/*)'	STORYSCRIPT	''
-    '~/dev(|/*)'		PERSO		'')
+    '~/workspace/storyai(|/*)'	STORYSCRIPT	''
+    '~/workspace(|/*)'		PERSO		'')
 
   typeset -g POWERLEVEL9K_DIR_STORYSCRIPT_FOREGROUND=63
   typeset -g POWERLEVEL9K_DIR_STORYSCRIPT_SHORTENED_FOREGROUND=61

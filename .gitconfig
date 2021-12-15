@@ -20,6 +20,8 @@
   st = status
   ci = commit
   cim = commit -m
+  cam = commit --amend
+  cams = commit --amend --no-verify
   br = branch
   co = checkout
   df = diff
@@ -30,4 +32,8 @@
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all --date=local
 [commit]
 	gpgsign = true
-[pull]	rebase = true
+[pull]
+	rebase = true
+
+[url "ssh://git@github.com:"]
+	insteadOf = https://github.com
